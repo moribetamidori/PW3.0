@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Yingru Qiu</title>
+  
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2020-04-11T05:50:50.282Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>MineWorld | 我的人生版图</title>
+    <link href="http://yoursite.com/2020/04/11/MineWorld/"/>
+    <id>http://yoursite.com/2020/04/11/MineWorld/</id>
+    <published>2020-04-11T04:25:22.000Z</published>
+    <updated>2020-04-11T05:50:50.282Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;b&gt;INTRO: &lt;/b&gt; 大概是人生阶段性的总结与展望，不定期更新。&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;2020/04/11&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;2018年7月的时候我在我的艺术作品网站上写下了&lt;a  href =
+        
+      
+    
+    </summary>
+    
+    
+    
+      <category term="碎碎念" scheme="http://yoursite.com/tags/%E7%A2%8E%E7%A2%8E%E5%BF%B5/"/>
+    
+      <category term="个人日记" scheme="http://yoursite.com/tags/%E4%B8%AA%E4%BA%BA%E6%97%A5%E8%AE%B0/"/>
+    
+      <category term="生活" scheme="http://yoursite.com/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>About Memory | 有关记忆</title>
+    <link href="http://yoursite.com/2020/04/10/Memory/"/>
+    <id>http://yoursite.com/2020/04/10/Memory/</id>
+    <published>2020-04-11T02:52:22.000Z</published>
+    <updated>2020-04-11T04:27:30.215Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;b&gt;INTRO:&lt;/b&gt;  最近在阅读Eric Kandel的书「追寻记忆的痕迹」。以下是一些总结。写作是理清思维的极好的一个方式。因为只读到了40%左右，所以大概会不定期更新。&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;摘抄 | 想法 &lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;第三部
+        
+      
+    
+    </summary>
+    
+    
+    
+      <category term="追寻记忆的痕迹" scheme="http://yoursite.com/tags/%E8%BF%BD%E5%AF%BB%E8%AE%B0%E5%BF%86%E7%9A%84%E7%97%95%E8%BF%B9/"/>
+    
+      <category term="In Search of Memory" scheme="http://yoursite.com/tags/In-Search-of-Memory/"/>
+    
+      <category term="读书笔记" scheme="http://yoursite.com/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="杂想" scheme="http://yoursite.com/tags/%E6%9D%82%E6%83%B3/"/>
+    
+  </entry>
+  
+</feed>
