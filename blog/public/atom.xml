@@ -6,17 +6,17 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-04-11T05:50:50.282Z</updated>
+  <updated>2020-05-20T18:40:24.922Z</updated>
   <id>http://yoursite.com/</id>
   
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>MineWorld | 我的人生版图</title>
-    <link href="http://yoursite.com/2020/04/11/MineWorld/"/>
-    <id>http://yoursite.com/2020/04/11/MineWorld/</id>
-    <published>2020-04-11T04:25:22.000Z</published>
-    <updated>2020-04-11T05:50:50.282Z</updated>
+    <title>Searching Algorithm-DFS and BFS | 检索算法-深度优先搜索与广度优先搜索</title>
+    <link href="http://yoursite.com/2020/05/19/SearchingAlgo1/"/>
+    <id>http://yoursite.com/2020/05/19/SearchingAlgo1/</id>
+    <published>2020-05-19T21:10:48.000Z</published>
+    <updated>2020-05-20T18:40:24.922Z</updated>
     
     <summary type="html">
     
@@ -24,9 +24,129 @@
       
         
         
-          &lt;p&gt;&lt;b&gt;INTRO: &lt;/b&gt; 大概是人生阶段性的总结与展望，不定期更新。&lt;/p&gt;
-&lt;p&gt;&lt;b&gt;2020/04/11&lt;/b&gt;&lt;/p&gt;
-&lt;p&gt;2018年7月的时候我在我的艺术作品网站上写下了&lt;a  href =
+          &lt;p&gt;&lt;b&gt;INTRO: &lt;/b&gt; Notes about DFS and BFS with coding examples. I feel that the major difference between DFS and BFS is that the data
+        
+      
+    
+    </summary>
+    
+    
+    
+      <category term="code" scheme="http://yoursite.com/tags/code/"/>
+    
+      <category term="DFS" scheme="http://yoursite.com/tags/DFS/"/>
+    
+      <category term="BFS" scheme="http://yoursite.com/tags/BFS/"/>
+    
+      <category term="Searching Algorithm" scheme="http://yoursite.com/tags/Searching-Algorithm/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux Kernel Development (EN|CH) (Translation) | Linux内核编译 (中|英) (译) PART 1</title>
+    <link href="http://yoursite.com/2020/05/18/LinuxKernelDevelopment/"/>
+    <id>http://yoursite.com/2020/05/18/LinuxKernelDevelopment/</id>
+    <published>2020-05-18T20:10:42.000Z</published>
+    <updated>2020-05-20T18:42:48.977Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;font color=#FF1493    &gt;&lt;b&gt;All Contents are Credited to &lt;a  href = &quot;mailto:lq56@scarletmail.rutgers.edu&quot;&gt;@Longfei
+        
+      
+    
+    </summary>
+    
+    
+    
+      <category term="code" scheme="http://yoursite.com/tags/code/"/>
+    
+      <category term="note" scheme="http://yoursite.com/tags/note/"/>
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="kernel" scheme="http://yoursite.com/tags/kernel/"/>
+    
+      <category term="笔记" scheme="http://yoursite.com/tags/%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="Linux内核编译" scheme="http://yoursite.com/tags/Linux%E5%86%85%E6%A0%B8%E7%BC%96%E8%AF%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Memory Echos | 记忆的回声</title>
+    <link href="http://yoursite.com/2020/04/28/MemoryEchos/"/>
+    <id>http://yoursite.com/2020/04/28/MemoryEchos/</id>
+    <published>2020-04-28T04:57:16.000Z</published>
+    <updated>2020-05-22T15:29:44.908Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;b&gt;INTRO: &lt;/b&gt; 刚搬完家，因为偶然在Spotify上听到了2013年 salyu x salyu 的歌
+        
+      
+    
+    </summary>
+    
+    
+    
+      <category term="个人日记" scheme="http://yoursite.com/tags/%E4%B8%AA%E4%BA%BA%E6%97%A5%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hexo Deployment | Hexo + Vultr 部署避坑指南</title>
+    <link href="http://yoursite.com/2020/04/20/HexoDePloyment/"/>
+    <id>http://yoursite.com/2020/04/20/HexoDePloyment/</id>
+    <published>2020-04-20T05:13:35.000Z</published>
+    <updated>2020-04-20T07:12:47.253Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;b&gt;INTRO:&lt;/b&gt;  因为想要的课没选上所以打算写一篇避坑指南增加一些人品。以下是我在部署hexo博客到vultr服务器的时候遇到的一些bug和解决方案。希望能够有所帮助。系统用的是Vultr服务器的Centos 8,
+        
+      
+    
+    </summary>
+    
+    
+    
+      <category term="code" scheme="http://yoursite.com/tags/code/"/>
+    
+      <category term="web" scheme="http://yoursite.com/tags/web/"/>
+    
+      <category term="deployment" scheme="http://yoursite.com/tags/deployment/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MineWorld | 我的人生版图</title>
+    <link href="http://yoursite.com/2020/04/11/MineWorld/"/>
+    <id>http://yoursite.com/2020/04/11/MineWorld/</id>
+    <published>2020-04-11T04:25:22.000Z</published>
+    <updated>2020-05-20T18:37:13.677Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;b&gt;INTRO: &lt;/b&gt; 大概是人生阶段性的总结与展望，不定期更新。Last Update: 5/20/2020&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;2020/05/20&lt;/b&gt;&lt;/p&gt;
+&lt;p&gt;在做440
         
       
     

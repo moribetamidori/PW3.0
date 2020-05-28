@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    Linux Kernel Development (EN|CH) (Translation) | Linux内核编译 (中|英) (译) PART 1 |  Yingru Qiu
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/images/logo.png" />
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+  
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="Yingru Qiu" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-LinuxKernelDevelopment" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Linux Kernel Development (EN|CH) (Translation) | Linux内核编译 (中|英) (译) PART 1
+</h1>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/05/18/LinuxKernelDevelopment/" class="article-date">
+  <time datetime="2020-05-18T20:10:42.000Z" itemprop="datePublished">2020-05-18</time>
+</a>
+      
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">1.1k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">7分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <p><font color=#FF1493    ><b>All Contents are Credited to <a  href = "mailto:lq56@scarletmail.rutgers.edu">@Longfei Qiu</a></b></font></p>
+<p><b>INTRO: </b> It’s all started with a conversation I had with Longfei, my 314 course TA, who is a very talented programmer. After final I was trying to ask him if I could learn anything from him, and he asked if I want to learn linux kernel programming, a topic he is very interested in that touches the very bottom of computers’ operating system. I was like why not? And here it is. The original tutorial he wrote is in Chinese and I’ll post the original tutorial below. The translation of the original tutorial is authorized, and I’ll sometimes add comments colored in blue in the following content to note some tips and things I have learned by following his tutorial. His tutorial is both technical and entertaining as you would not only learn the technical part of his tutorial but also the rich histroy behind linux kernel programming. Hopefully whoever is also interested in this topic would benefit from this post. All discussions are welcomed! </p>
+<p><b>中文版请戳这: <a  href = "https://drive.google.com/file/d/1kY_sYgNFSVtNNaCzAEDUJ8EIk3_QlY3x/view?usp=sharing">Linux Kernel Programming Part 1</a></b></p>
+<h2 id="1-Introduction-to-Linux"><a href="#1-Introduction-to-Linux" class="headerlink" title="1 Introduction to Linux"></a>1 Introduction to Linux</h2><p>Linux is a set of open source Unix operating system kernels led by Finnish Linus Torvalds. LINUX itself is not a complete operating system and needs to be accompanied by complete User-Mode components. The most popular Linux User-Mode component pacakge is the GNU Project led by Richard Stallman. A complete operating system that consists of the Linux kernel and the User-Mode components is called Linux Distribution. Linux distributions that use GNU project are strictly called GNU/Linx. There are six main branches of Linux distributions in the world: RHEL, Debian, Slackware, Gentoo, Arch Linux, and Android, all of which use GNU project excpet Android. </p>
+<h3 id="1-1-Unix-Like-Operating-System"><a href="#1-1-Unix-Like-Operating-System" class="headerlink" title="1.1 Unix-Like Operating System"></a>1.1 Unix-Like Operating System</h3><p>Unix was an operating system developed by Ken Thompson and Dennis Ritchie in the 1960s and first used in PDP-7 and PDP-11 systems. Unix is copyrighted by AT7T, but under the antitrust laws of the time, AT&amp;T was unable to use Unix to generate profit. Therefore at that time all universities and companies can access Unix’s source code by giving a very low “material fee” to AT&amp;T. Unix quickly became the most popular operating system of the time. In 1980s, the government forced AT&amp;T to break up and subsequently a large number of commercial operating systems that are compatible with Unix’s interface emerged in the market, and this period known as Unix Wars. </p>
+<p>By the mid 1980s, Unix-Like products had split into several imcompatible factions, the most influential of which were SysV and BSD. The modern Unix-Like systems do not strictly stand on either side. </p>
+<h3 id="1-2-Linux-Distributions"><a href="#1-2-Linux-Distributions" class="headerlink" title="1.2 Linux Distributions"></a>1.2 Linux Distributions</h3><p>There are currently six main branches of Linux Distribution: RHEL, Debian, Slackware, Gentoo, Arch Linux, Android.</p>
+<p><b>RHEL(Red Hat Enterprise Linux):</b> a distribution led by Red Hat company, mainly used for web servers and is known for its stability. CentOS is a free version of RHEL, but is not supported by Red Hat. The versions of the sofware used by RHEL are usually very old, as the new versions’ stability are not time proved yet. CentOS is a free version of RHEL, but is not supported by Red Hat.</p>
+<p><b>Debian:</b> Debian is a distribution dominated by the open source community. The Canonical company has developed the famous Ubuntu distribution based on Debian. The software used by Debian generally updated faster than RHEL, but slower than Arch Linux. </p>
+<p><b>Slackware:</b> The oldest linux distribution, known for its simple interface but difficult to get started. RHEL’s competitor SUSE is a distribution based on Slackware. OpenSUSE is the free version of SUSE.</p>
+<p><b>Arch Linux:</b> A distribution similar to Slackware, both known for its simplicity. Arch Linux uses Rolling Release, and therefore the sofware is being updated extremely fast. Usually, the Arch Linux version of a sofware’s new version would be availiable within one week of the release of the source code. In this way, technology enthusiasts are able to quickly experience the features of the new version. But it also makes Arch Linux less mature and stable to be used on servers and the like. The offical Arch Linux website has a Wiki called Arch Wiki, which has extremely detailed descriptions for all the common software on Linux, often called the “Bible” of Linux. </p>
+<p><b>Gentoo Linux:</b> A distribution known for its pursuit of speed. It compiles all software locally from the source code in order to maximize the optimization based on the specific situation in a user’s system. The Chromium OS Google developed for Netbook is based on Gentoo. </p>
+<p><b>Android:</b> A linux distribution developed by Google for mobile dvices, did not use GNU at all. </p>
+<h2 id="2-Learning-Linux-using-RISC-V"><a href="#2-Learning-Linux-using-RISC-V" class="headerlink" title="2 Learning Linux using RISC-V"></a>2 Learning Linux using RISC-V</h2><p>There is a strict distinciton between “architecture-dependent” and “architecture independent” program in Linux source code. The architecture refers to the CPU architecture. The most supported platform for Linux are Intel x86 and x64. However, the historical baggage of x86 architecture is too heavy such that there are numerous patches in the x86 architecture-related code, designed to get around the quirks of certain Intel (or AMD) chips. These historical baggages are not conductive to the study of Linux source code. Therefore I think the best way to learn linux code is to experiment on a simple CPU architecture, not on a x86 architecture. </p>
+<p>RISC-V is a set of open source CPU instruction set led by UC Berkeley, and is known for its small number of instructions, a clear design concept, and the use of a relatively weak memory model to improve execution efficiency. SiFive is by far the most successful designer of RISC-V chips. On an x86 computer, the RISC-V chip can be simulated with Qemu. Currently, most of the components of Linux and GNU project (especially the GCC compiler and GDB debugger) have been ported to the RISC-V architecture. </p>
+<h2 id="3-Install-x86-Linux-Virtual-Machine"><a href="#3-Install-x86-Linux-Virtual-Machine" class="headerlink" title="3 Install x86 Linux Virtual Machine"></a>3 Install x86 Linux Virtual Machine</h2><p>We are going to program the linux kernel that runs on RISC-V. However, the Linux kernel can only be programmed under Linux’s GCC. Therefore, we’re going to start by installing a Linux virtual machine on an x86 platform, with a GCC compiler and GDB debugger whose target architecture is RISC-V. </p>
+<p>For personal research and experimental purpose, I recommend installing the Arch Linux distribution. In fact, only Arch Linux currently offers the latest versions of GCC and GDB with target architecture of RISC-V. For convenience, both of our x86 virutal machine and RISC-V virtual machine will use the Qemu emulator.</p>
+<p>First, download the latest version of Qemu from Qemu’s official website: <a href="https://www.qemu.org/" target="_blank" rel="noopener">https://www.qemu.org/</a><br>Qemu supports both Windows and Mac platform. </p>
+<h3 id="For-Windows"><a href="#For-Windows" class="headerlink" title="For Windows"></a>For Windows</h3><p>Updating…</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/05/18/LinuxKernelDevelopment/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux%E5%86%85%E6%A0%B8%E7%BC%96%E8%AF%91/" rel="tag">Linux内核编译</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/code/" rel="tag">code</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kernel/" rel="tag">kernel</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/note/" rel="tag">note</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag">笔记</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+      <a href="/2020/05/19/SearchingAlgo1/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            Searching Algorithm-DFS and BFS | 检索算法-深度优先搜索与广度优先搜索
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/04/28/MemoryEchos/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">Memory Echos | 记忆的回声</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2020
+        Yingru Qiu
+      </li>
+      <li>
+        
+        Powered by
+        
+        
+        <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+    <aside class="sidebar">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/logo.png" alt="Yingru Qiu"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">Home</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags/code">Code</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">About</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/bloggers">Bloggers</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">Archives</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">Catalogs</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">Tags</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="https://yingruqiu.wixsite.com/yingru-qiu" target="_blank" rel="noopener">Artworks</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i></p>
+  <div class="reward-box">
+    
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/share.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+      strings: ['I love you forever now.', 'Adaptation is the key.', 'Always Curious, Always Exploring'],
+      startDelay: 0,
+      typeSpeed: 200,
+      loop: true,
+      backSpeed: 100,
+      showCursor: true
+    });
+  } catch (err) {
+  }
+
+</script>
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/js/ayer.js"></script>
+
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+
+    
+  </div>
+</body>
+
+</html>

@@ -69,6 +69,419 @@
     
     
     
+    <article id="post-SearchingAlgo1" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/05/19/SearchingAlgo1/"
+    >Searching Algorithm-DFS and BFS | 检索算法-深度优先搜索与广度优先搜索</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/05/19/SearchingAlgo1/" class="article-date">
+  <time datetime="2020-05-19T21:10:48.000Z" itemprop="datePublished">2020-05-19</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <p><b>INTRO: </b> Notes about DFS and BFS with coding examples. I feel that the major difference between DFS and BFS is that the data structure it uses. DFS uses Stack and BFS uses Queue. However, as you can see after you read through it, such a small difference would create two completely different searching strategies. I also used a different notation for deriving the time and space complexity for DFS and BFS, as I learned from my 440 (Intro to AI) class that it would give you much more details than a simple V and E notation. </p>
+<p>Knowldege required before you dive into the topic: <b><font color=#33BBFF>Tree, Node, Linked List, Stack, Queue. </font></b> </p>
+<h2 id="The-General-Searching-Algorithm-for-both-BFS-and-DFS"><a href="#The-General-Searching-Algorithm-for-both-BFS-and-DFS" class="headerlink" title="The General Searching Algorithm for both BFS and DFS"></a>The General Searching Algorithm for both BFS and DFS</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">XFS</span> <span class="params">(source, goal, restricted)</span>:</span></span><br><span class="line">    fringe = [] <span class="comment"># A list used to hold the nodes to be visited</span></span><br><span class="line">    visited = [] <span class="comment"># Used to hold nodes that you have already visited</span></span><br><span class="line">    pred = [] <span class="comment"># Used to hold the predecessor of each node. If you're solving a matrix of states, you can also formulate it to be a 2D matrix array.</span></span><br><span class="line">    <span class="keyword">while</span> (len(fringe) &gt; <span class="number">0</span>): </span><br><span class="line">        currentNode  = fringe.pop()</span><br><span class="line">        <span class="keyword">if</span> currentNode.data == goal </span><br><span class="line">            <span class="keyword">return</span> <span class="string">"Sucess"</span>, pred</span><br><span class="line">        <span class="keyword">for</span> child <span class="keyword">in</span> currentNode:</span><br><span class="line">            <span class="keyword">if</span> child <span class="keyword">not</span> <span class="keyword">in</span> visited <span class="keyword">and</span> child <span class="keyword">not</span> <span class="keyword">in</span> restricted:</span><br><span class="line">                fringe.append(child)</span><br><span class="line">                pred[child] = currentNode</span><br><span class="line">        visited.append(currentNode)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"No Solution"</span>, NULL</span><br></pre></td></tr></table></figure>
+<p>Since for some reason the comment function for python markdown is not working after the while loop, I attach the explanation for the while loop as follows:</p>
+<p><b>Line 5:</b> if there are still nodes in the fringe that are not being visited<br><b>Line 6:</b> Pop the node (using either stack or queue, for queue use .pop(0) to pop from the first element).<br><b>Line 7-8:</b> if that node is the goal, then I return the success message and the predecessor set.<br><b>Line 9-12:</b> Otherwise, I would loop through each child of that node, and append it to the fringe and mark its predecessor in the pred set as currentNode.<br><b>Line 13:</b> After I loop through all of its children, I mark currentNode as visited.<br><b>Line 14:</b> Finally, If I still can’t find a solution after expand all possible nodes in the graph, I return No Solution and a Null pred set. </p>
+<p><strong><em>Note:</em></strong> There are a lot of different ways to manipulate the code depend on the question it asks. For example, the restricted state does not have to be passed down. You could check the restricted state within the for loop for each child. However, there are some components that have to be there:</p>
+<p><b>Frindge:</b> Used to hold nodes to be visited.<br><b>Visited:</b> Used to hold nodes that have been fully visited (All of its children are visited).<br><b>Predecessor:</b> Used to hold the predecessor (the parent node) of a node. We need this set because we want to be able to print out the path once the search is finished by tracing backwards from the goal to the source and looking at each node’s predecessor. </p>
+<h2 id="Comparing-BFS-and-DFS"><a href="#Comparing-BFS-and-DFS" class="headerlink" title="Comparing BFS and DFS"></a>Comparing BFS and DFS</h2><p><a href="https://vivadifferences.com/difference-between-dfs-and-bfs-in-artificial-intelligence/" target="_blank"><img src="https://i.loli.net/2020/05/20/opY4i2zbeWFjs81.png" ></a></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Removing Strategy</th>
+<th>Completeness</th>
+<th>Optimality</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DFS</td>
+<td>Remove the newest node from fringe (LIFO), and therefore uses Stack.</td>
+<td>Not complete if state space is infinite, is complete if state space is finite.</td>
+<td>No, it does not guarantee to give you the shortest path.</td>
+</tr>
+<tr>
+<td>BFS</td>
+<td>Remove the oldest node from fringe (FIFO), and therefore uses Queue.</td>
+<td>Is complete. Because BFS will explore all possible states.</td>
+<td>Yes, it guarantees to give you the shortest path.</td>
+</tr>
+</tbody></table>
+<h3 id="DFS-Depth-First-Searching-Algorithm"><a href="#DFS-Depth-First-Searching-Algorithm" class="headerlink" title="DFS Depth-First Searching Algorithm"></a>DFS Depth-First Searching Algorithm</h3><p><b><font color=#33BBFF>Features:</font></b> Like its name, it would go down to one branch as deep as possible before exploring other braches in a tree. </p>
+<p><b><font color=#33BBFF>Data Structure Used: </font></b>Stack. Notice that if you always pop the last element first (and at the same time you always append the children to the end of the list), you would always explore the children of the node and the children of that children before you move on to the neighboring node at the same level. Try to draw a tree and a one dimensional horizontal list that illustrate the process by yourself and you will see the point. </p>
+<p><b><font color=#33BBFF>Strategy: </font></b>DFS is usually a faster way to find a path (if it exists) than BFS because instead of exploring all the possibilities on a level, it only explores one branch until it finds a viable path. However, it is not suitble for finding the shortest path. </p>
+<p><b><font color=#FF1493>Time Complexity: </font></b><b>O(b<sup>d</sup>).</b></p>
+<ul>
+<li>b represents the number of children a parent can hold. For example, a tree can have more than 2 children, and therefore it is useful to use b to measure against the time complexity. </li>
+<li>d represents the depth of the tree. </li>
+<li>Derivation: Total nodes = 1 + b + b<sup>2</sup> + b<sup>3</sup> + … + b<sup>d</sup>. Drop the lower terms you get O(b<sup>d</sup>).</li>
+<li>Usually you would see something like O(|V|), in which |V| represents the total number of nodes since you need to traverse through all nodes. O(b<sup>d</sup>) here represents the same idea but with different variables. </li>
+<li>It can also be O(|V| + |E|) if you are using adjacency lists, and O(V<sup>2</sup>) for adjacency matrix.</li>
+</ul>
+<p><b><font color=#FF1493>Space Complexity:</font></b> <b>O(b·d<sup>max</sup>). </b></p>
+<ul>
+<li>d<sup>max</sup>: represents the depth of maximal solution.</li>
+<li>Derivation: Given the nature of DFS, you would go deep down into a branch before exploring the node in the same level. Therefore the nodes in the stack would be something like 1+1+1…+b·d<sup>max</sup>. Droping the 1 terms, it means that in the worst case scenario, you would only have at most b·d<sup>max</sup> nodes in a stack. </li>
+<li>Notice usually the space complexity would also be O(|V|). With same reasoning as time complexity.</li>
+</ul>
+<h3 id="BFS-Breadth-First-Searching-Algorithm-shortest-path"><a href="#BFS-Breadth-First-Searching-Algorithm-shortest-path" class="headerlink" title="BFS Breadth-First Searching Algorithm (shortest path)"></a>BFS Breadth-First Searching Algorithm (shortest path)</h3><p><b><font color=#33BBFF>Features: </font></b>Explore all the branches level by level and proceed to the shortest path. </p>
+<p><b><font color=#33BBFF>Data Structure Used: </font></b>Queue. In contrast to BFS, if you always pop the first element first and at the same time you always append the children of that node to the end of the list, you would always first explore all the node at the same level before moving on to the nodes in the next level (a drawing would be helpful here too).</p>
+<p><b><font color=#33BBFF>Strategy: </font></b>You use it to find the best solution because you would explore all possibilities in each level before moving on to the next level, but with greater space complexity as a trade off. </p>
+<p><b><font color=#FF1493>Time Complexity:</font></b> <b>O(b<sup>d</sup>). </b>Same explantion in DFS.  </p>
+<p><b><font color=#FF1493>Space Complexity:</font></b> <b>O(b<sup>d<sup>min</sup></sup>).</b></p>
+<ul>
+<li>d<sup>min</sup>: represents the depth of minimal solution.</li>
+<li>Derivation: It is because you have to hold all the nodes from previous layer until you find the best solution at minimal depth of d<sup>min</sup>: 1 + b + b<sup>2</sup> + b<sup>3</sup> + … + b<sup>d<sup>min</sup></sup>. Notice that it grows exponentially compared to DFS, and is therefore generally more expensive than DFS. </li>
+</ul>
+<p><em>Some end notes: After watched the AlphaGo documentary, I was amazed about how AI is able to beat human with a game that has countless possibilities for each move. Even though the actual algorithm behind AlphaGo is way more complicated than DFS and BFS, but you might want to primarily use DFS instead of BFS when calculating the next move in the game of Go.</em></p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BFS/" rel="tag">BFS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DFS/" rel="tag">DFS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Searching-Algorithm/" rel="tag">Searching Algorithm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/code/" rel="tag">code</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-LinuxKernelDevelopment" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/05/18/LinuxKernelDevelopment/"
+    >Linux Kernel Development (EN|CH) (Translation) | Linux内核编译 (中|英) (译) PART 1</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/05/18/LinuxKernelDevelopment/" class="article-date">
+  <time datetime="2020-05-18T20:10:42.000Z" itemprop="datePublished">2020-05-18</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <p><font color=#FF1493    ><b>All Contents are Credited to <a  href = "mailto:lq56@scarletmail.rutgers.edu">@Longfei Qiu</a></b></font></p>
+<p><b>INTRO: </b> It’s all started with a conversation I had with Longfei, my 314 course TA, who is a very talented programmer. After final I was trying to ask him if I could learn anything from him, and he asked if I want to learn linux kernel programming, a topic he is very interested in that touches the very bottom of computers’ operating system. I was like why not? And here it is. The original tutorial he wrote is in Chinese and I’ll post the original tutorial below. The translation of the original tutorial is authorized, and I’ll sometimes add comments colored in blue in the following content to note some tips and things I have learned by following his tutorial. His tutorial is both technical and entertaining as you would not only learn the technical part of his tutorial but also the rich histroy behind linux kernel programming. Hopefully whoever is also interested in this topic would benefit from this post. All discussions are welcomed! </p>
+<p><b>中文版请戳这: <a  href = "https://drive.google.com/file/d/1kY_sYgNFSVtNNaCzAEDUJ8EIk3_QlY3x/view?usp=sharing">Linux Kernel Programming Part 1</a></b></p>
+<h2 id="1-Introduction-to-Linux"><a href="#1-Introduction-to-Linux" class="headerlink" title="1 Introduction to Linux"></a>1 Introduction to Linux</h2><p>Linux is a set of open source Unix operating system kernels led by Finnish Linus Torvalds. LINUX itself is not a complete operating system and needs to be accompanied by complete User-Mode components. The most popular Linux User-Mode component pacakge is the GNU Project led by Richard Stallman. A complete operating system that consists of the Linux kernel and the User-Mode components is called Linux Distribution. Linux distributions that use GNU project are strictly called GNU/Linx. There are six main branches of Linux distributions in the world: RHEL, Debian, Slackware, Gentoo, Arch Linux, and Android, all of which use GNU project excpet Android. </p>
+<h3 id="1-1-Unix-Like-Operating-System"><a href="#1-1-Unix-Like-Operating-System" class="headerlink" title="1.1 Unix-Like Operating System"></a>1.1 Unix-Like Operating System</h3><p>Unix was an operating system developed by Ken Thompson and Dennis Ritchie in the 1960s and first used in PDP-7 and PDP-11 systems. Unix is copyrighted by AT7T, but under the antitrust laws of the time, AT&amp;T was unable to use Unix to generate profit. Therefore at that time all universities and companies can access Unix’s source code by giving a very low “material fee” to AT&amp;T. Unix quickly became the most popular operating system of the time. In 1980s, the government forced AT&amp;T to break up and subsequently a large number of commercial operating systems that are compatible with Unix’s interface emerged in the market, and this period known as Unix Wars. </p>
+<p>By the mid 1980s, Unix-Like products had split into several imcompatible factions, the most influential of which were SysV and BSD. The modern Unix-Like systems do not strictly stand on either side. </p>
+<h3 id="1-2-Linux-Distributions"><a href="#1-2-Linux-Distributions" class="headerlink" title="1.2 Linux Distributions"></a>1.2 Linux Distributions</h3><p>There are currently six main branches of Linux Distribution: RHEL, Debian, Slackware, Gentoo, Arch Linux, Android.</p>
+<p><b>RHEL(Red Hat Enterprise Linux):</b> a distribution led by Red Hat company, mainly used for web servers and is known for its stability. CentOS is a free version of RHEL, but is not supported by Red Hat. The versions of the sofware used by RHEL are usually very old, as the new versions’ stability are not time proved yet. CentOS is a free version of RHEL, but is not supported by Red Hat.</p>
+<p><b>Debian:</b> Debian is a distribution dominated by the open source community. The Canonical company has developed the famous Ubuntu distribution based on Debian. The software used by Debian generally updated faster than RHEL, but slower than Arch Linux. </p>
+<p><b>Slackware:</b> The oldest linux distribution, known for its simple interface but difficult to get started. RHEL’s competitor SUSE is a distribution based on Slackware. OpenSUSE is the free version of SUSE.</p>
+<p><b>Arch Linux:</b> A distribution similar to Slackware, both known for its simplicity. Arch Linux uses Rolling Release, and therefore the sofware is being updated extremely fast. Usually, the Arch Linux version of a sofware’s new version would be availiable within one week of the release of the source code. In this way, technology enthusiasts are able to quickly experience the features of the new version. But it also makes Arch Linux less mature and stable to be used on servers and the like. The offical Arch Linux website has a Wiki called Arch Wiki, which has extremely detailed descriptions for all the common software on Linux, often called the “Bible” of Linux. </p>
+<p><b>Gentoo Linux:</b> A distribution known for its pursuit of speed. It compiles all software locally from the source code in order to maximize the optimization based on the specific situation in a user’s system. The Chromium OS Google developed for Netbook is based on Gentoo. </p>
+<p><b>Android:</b> A linux distribution developed by Google for mobile dvices, did not use GNU at all. </p>
+<h2 id="2-Learning-Linux-using-RISC-V"><a href="#2-Learning-Linux-using-RISC-V" class="headerlink" title="2 Learning Linux using RISC-V"></a>2 Learning Linux using RISC-V</h2><p>There is a strict distinciton between “architecture-dependent” and “architecture independent” program in Linux source code. The architecture refers to the CPU architecture. The most supported platform for Linux are Intel x86 and x64. However, the historical baggage of x86 architecture is too heavy such that there are numerous patches in the x86 architecture-related code, designed to get around the quirks of certain Intel (or AMD) chips. These historical baggages are not conductive to the study of Linux source code. Therefore I think the best way to learn linux code is to experiment on a simple CPU architecture, not on a x86 architecture. </p>
+<p>RISC-V is a set of open source CPU instruction set led by UC Berkeley, and is known for its small number of instructions, a clear design concept, and the use of a relatively weak memory model to improve execution efficiency. SiFive is by far the most successful designer of RISC-V chips. On an x86 computer, the RISC-V chip can be simulated with Qemu. Currently, most of the components of Linux and GNU project (especially the GCC compiler and GDB debugger) have been ported to the RISC-V architecture. </p>
+<h2 id="3-Install-x86-Linux-Virtual-Machine"><a href="#3-Install-x86-Linux-Virtual-Machine" class="headerlink" title="3 Install x86 Linux Virtual Machine"></a>3 Install x86 Linux Virtual Machine</h2><p>We are going to program the linux kernel that runs on RISC-V. However, the Linux kernel can only be programmed under Linux’s GCC. Therefore, we’re going to start by installing a Linux virtual machine on an x86 platform, with a GCC compiler and GDB debugger whose target architecture is RISC-V. </p>
+<p>For personal research and experimental purpose, I recommend installing the Arch Linux distribution. In fact, only Arch Linux currently offers the latest versions of GCC and GDB with target architecture of RISC-V. For convenience, both of our x86 virutal machine and RISC-V virtual machine will use the Qemu emulator.</p>
+<p>First, download the latest version of Qemu from Qemu’s official website: <a href="https://www.qemu.org/" target="_blank" rel="noopener">https://www.qemu.org/</a><br>Qemu supports both Windows and Mac platform. </p>
+<h3 id="For-Windows"><a href="#For-Windows" class="headerlink" title="For Windows"></a>For Windows</h3><p>Updating…</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux%E5%86%85%E6%A0%B8%E7%BC%96%E8%AF%91/" rel="tag">Linux内核编译</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/code/" rel="tag">code</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kernel/" rel="tag">kernel</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/note/" rel="tag">note</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag">笔记</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-MemoryEchos" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/04/28/MemoryEchos/"
+    >Memory Echos | 记忆的回声</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/04/28/MemoryEchos/" class="article-date">
+  <time datetime="2020-04-28T04:57:16.000Z" itemprop="datePublished">2020-04-28</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <p><b>INTRO: </b> 刚搬完家，因为偶然在Spotify上听到了2013年 salyu x salyu 的歌 「じぶんがいない」后大脑瞬间把我拉回了高中时代。这首歌在当时循环了几遍后就再也没有遇到过，但听到的那一刻就认了出来，也在今天才知道这首歌与攻壳机动队有关。大脑的记忆储存机制果然非常神奇。前不久李银河在wb上说人类的最终姿态即是孤独的。但即使知道这点，我还是想要理解与被理解，想要表达，想被看到，以此去拥抱那些流逝在时空里的人。</p>
+<p>不知是第几次搬家后，似乎情感终于没有了没有过多动摇。大脑逐渐学习到这种常态再怎么难过不会死人，只让我仪式性的感伤了一下后便将我重新拉回了现实。也逐渐意识到了方才进入到我意识中的时空与人与事才是当下最珍贵的。人类是否有自由意志，是否一切都是既定的，是否还会有别的更好的选择，人生是否有意义，个体是否是永恒孤独的，这些都是很好的问题。但若是被这些信息量的不足而导致的摇摆不定困住，反而让自己错失更多的人生体验吧。</p>
+<p>一切亲密关系的建立的内驱力都是为了互相证明彼此的存在。多去结交有意思的人，将自己的思想丢向更多的人(即使他们能够陪伴你的时空只是一小段)，并去感受思想被接收并反射回来的敲击感吧，那便是我们精神力的来源，是活着的实感。去专注的，投入的活着吧，专注就是目的，就是顶点，就是终点了，其他都不重要。「生活的极致就是专注啊，任何起点，终点，高度，成就，阶段，方位，都不重要。只要能一直专注，只要能让你投入」，我的友人说道。如同Ted Chiang 所写的「你一生的故事」里所发起的灵魂拷问: 假如一切都是注定好的，你还会选择开始吗？还会让人生中的一切喜悦与悲伤毫无保留的纳入你那名为人类的渺小的，却又非常容易被填满的容器里吗？</p>
+<p>最后擅自链一下我另一个友人关于「你一生的故事」的<a  href = http://wjw12.github.io/2017/02/01/Arrival/>日记</a>，非常有意思。</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA%E6%97%A5%E8%AE%B0/" rel="tag">个人日记</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-HexoDePloyment" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/04/20/HexoDePloyment/"
+    >Hexo Deployment | Hexo + Vultr 部署避坑指南</a> 
+</h2>
+ 
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/04/20/HexoDePloyment/" class="article-date">
+  <time datetime="2020-04-20T05:13:35.000Z" itemprop="datePublished">2020-04-20</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+
+      
+      <p><b>INTRO:</b>  因为想要的课没选上所以打算写一篇避坑指南增加一些人品。以下是我在部署hexo博客到vultr服务器的时候遇到的一些bug和解决方案。希望能够有所帮助。系统用的是Vultr服务器的Centos 8, 如果用的是Ubuntu的话一些指令的前缀有可能会有些不一样，此时启动谷歌即可。可能会夹杂一些中二词汇，尽请谅解，嗝。</p>
+<p><b>安装依赖(总之安装就完事了):</b> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ yum install -y gcc gcc-c++ make git openssl</span><br><span class="line">$ yum install -y nginx</span><br><span class="line">$ yum update and yum install -y nodejs</span><br><span class="line">$ systemctl enable nginx and systemctl start nginx</span><br></pre></td></tr></table></figure>
+
+<p><b>创建超级用户:</b> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 在root用户下新建一个用户名</span><br><span class="line">root@server:~# adduser 「username」</span><br><span class="line"># 给新建的用户名设置密码</span><br><span class="line">root@server:~# passwd 「password」</span><br><span class="line"># 将新建的用户加入超级权限组</span><br><span class="line">root@server:~# usermod -aG wheel 「username」</span><br><span class="line"># 将新建的用户加入nginx组</span><br><span class="line">root@server:~# usermod -aG nginx vultr</span><br></pre></td></tr></table></figure>
+<p><b>把push到github上的hexo repo·初代载到本地:</b> </p>
+<ul>
+<li>这里假设你已经在本地localhost:4000把初代hexo调试好了并传到了github上。</li>
+<li>此时非常容易出一个和theme有关的错误(请看下文常见错误4)。</li>
+<li>为了省事直接cd进你新建的用户然后git clone 即可。</li>
+</ul>
+<p><b>新建git裸仓库(bare repository)存放本地Hexo:</b> </p>
+<ul>
+<li>Note: 搞了这玩意就可以在本地电脑一键更新博客，非常有用。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># cd进你的用户名目录</span><br><span class="line">cd &#x2F;home&#x2F;username </span><br><span class="line"># 使用以下命令创建git裸仓库，可以使用任何名称，在此使用blog.git</span><br><span class="line">git init --bare blog.git</span><br><span class="line"># 在blog.git&#x2F;hooks里vim一个post-receive文件</span><br><span class="line">vim ~&#x2F;blog.git&#x2F;hooks&#x2F;post-receive</span><br></pre></td></tr></table></figure>
+  然后在post-receive里输入以下内容，自行填充「」中的内容。分别是第一行和第三行。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">GIT_REPO&#x3D;&#x2F;home&#x2F;「username」&#x2F;blog.git</span><br><span class="line">TMP_GIT_CLONE&#x3D;&#x2F;tmp&#x2F;blog</span><br><span class="line">PUBLIC_WWW&#x3D;「你网站的根目录path」</span><br><span class="line">rm -rf $&#123;TMP_GIT_CLONE&#125;</span><br><span class="line">git clone $GIT_REPO $TMP_GIT_CLONE</span><br><span class="line">rm -rf $&#123;PUBLIC_WWW&#125;&#x2F;*</span><br><span class="line">cp -rf $&#123;TMP_GIT_CLONE&#125;&#x2F;* $&#123;PUBLIC_WWW&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p><b>配置nginx:</b> </p>
+<ol>
+<li>先cd进nginx配置目录，path通常是 /etc/nginx</li>
+<li>备份一下nginx.conf<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp nginx.conf nginx.conf.bak</span><br></pre></td></tr></table></figure></li>
+<li>vim 进nginx.conf <ul>
+<li>以防万一先把user 旁边的nginx改成root</li>
+</ul>
+</li>
+<li>滚到server那一块，把server_name改成你买好的域名(这里同时假设你已经把你域名指向这个服务器了)</li>
+<li>往下一行root那儿，把path改成你博客的根目录。</li>
+<li>最后使用:wq保存退出，如果无法write的话估计又是权限问题，此时使用sudo vim nginx.conf 即可。</li>
+<li>最后搞完后用 sudo nginx -t 查看配置是否成功。至于为什么用sudo呢，因为有时候不用就会报错用就不会。我也不知道为什么。</li>
+<li>记得每次更改_config.yml的内容后systemctl restart nginx 一下。</li>
+</ol>
+<p><font color=#1E90FF><i>查看nginx error log的小Tip:</i></font></p>
+<ol>
+<li>首先error log藏着的地方非常隐蔽，一般cd /var/log/nginx 即可。</li>
+<li>但是此时你通常可能因为权限原因还是不能vim进error.log里，这时被挨打过几百次的你无师自通了，sudo su后再vim进去即可。</li>
+</ol>
+<p><b>将本地hexo指向服务器</b> </p>
+<ul>
+<li>搞完这步就可以真的在本地一键部署了</li>
+</ul>
+<ol>
+<li>找到你根目录的_config.tml 文件</li>
+<li>在deploy下输入以下配置，自行换username:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">type: git</span><br><span class="line">repo: 「username」@服务器ip:&#x2F;home&#x2F;「username」&#x2F;blog.git</span><br><span class="line">branch: master</span><br></pre></td></tr></table></figure></li>
+<li>最后在本地终端输入hexo deploy即可一键部署，记得部署前hexo g一下。</li>
+</ol>
+<p><b>常见错误:</b> </p>
+<p><font color=#FF1493    ><b>Error1: 非超级用户无法执行命令</b></font></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Error: This command has to be run under the root user.</span><br><span class="line"># 解决方法:</span><br><span class="line">username@server:~# sudo su</span><br><span class="line">[sudo] password for「username」: </span><br><span class="line"># 在上面冒号后输入你之前设置的密码，然后就会切换到root。此时再跑一遍command即可。</span><br></pre></td></tr></table></figure>
+<p><font color=#FF1493    ><b>Error2: nginx没问题Ping也没问题hexo部署也显示成功了就但网页就是加载不出来</b></font></p>
+<ul>
+<li>大概率是防火墙的问题<br>解决方法: </li>
+</ul>
+<ol>
+<li>Run 以下代码: sudo firewall-cmd –state</li>
+<li>如果显示running则disable firewall: sudo systemctl stop firewalld</li>
+<li>如果想永久disable则看这个<a  href = https://linuxize.com/post/how-to-stop-and-disable-firewalld-on-centos-7/>帖子</a>即可。</li>
+</ol>
+<p><font color=#FF1493    ><b>Error3: Permission Denied - 各种权限问题导致网页403/forbidden (详见nginx的error.log)</b></font><br>解决方法:</p>
+<ol>
+<li>Run以下代码更改所有文件权限至0640: sudo find 「你博客根目录的path」 -type f -print0 | xargs -0 chmod 640</li>
+<li>有可能是nginx.conf的用户权限问题，如果还没把user从nginx改成root的话请立刻改。</li>
+<li>缺少index.html 文件，如果没有直接从本地部署的话，可能需要通过运行hexo g来创建index.html界面。</li>
+<li>可以试试将 vim进 /etc/selinux/config 里将SELINUX=enforcing改成SELINUX=disabled后重启服务器。(重启后防火墙如果没有设置成permanently disabled的话可能还需要再stop一次。以及always systemctl restart nginx。)</li>
+</ol>
+<p><font color=#FF1493    ><b>Error4 整个theme 在github上gray out了。</b></font></p>
+<ul>
+<li>好不容易在把下载的模板修修改改成自己喜欢的样子后发现整个theme folder在传到github上后完全点不开，也就是没传上去。<br>解决方法:</li>
+</ul>
+<ol>
+<li>搞个新的repo，把.gitignore删了，然后cd 进 theme folder，启动rm -rf .git(永久删除theme里有可能会自带的.git文件)，再上传即可。</li>
+</ol>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/code/" rel="tag">code</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/deployment/" rel="tag">deployment</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-MineWorld" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -105,7 +518,11 @@
       
 
       
-      <p><b>INTRO: </b> 大概是人生阶段性的总结与展望，不定期更新。</p>
+      <p><b>INTRO: </b> 大概是人生阶段性的总结与展望，不定期更新。Last Update: 5/20/2020</p>
+<p><b>2020/05/20</b></p>
+<p>在做440 Final的一道题的时候有感而发。那道题首先让我们找出走出迷宫的一个解(注意不是最优解)，具体问题我就不多赘述。我思索了半天想出了一个解法后又花了一天的时间不断的去解构我一开始凭直觉走的每一步。这个过程可以说是非常费脑力，我尝试了很多不同的解法，答案似乎也在慢慢靠近最优解。最后我用我总结的规律又走了一遍迷宫后终于得到了最优解–而神奇的是，在我总结出这套规律之前我并没有走出最优解。</p>
+<p>于是我发现了大脑的一些神奇之处。面对一个新的问题的时候，它或许不能立刻给出最优解，但大脑的算法里的某种直觉一样的东西能够至少让我们在短时间内尝试的去得到某种解。而有时候当有明确目标的时候，这种直觉甚至可以让我们接近最优解（也许是因为我们是目标驱动的）。</p>
+<p>另一个感想则是在发现规则的过程中，其实是毫无规则可言的（当然你也可以总结发现规则的规则）。发现规则的过程更像是在泥潭里探索着力点。</p>
 <p><b>2020/04/11</b></p>
 <p>2018年7月的时候我在我的艺术作品网站上写下了<a  href = https://yingruqiu.wixsite.com/yingru-qiu/post/born-to-die>第一篇日记</a>，里面诉说了我关于想要拿到CS degree的愿望。现在是2020年4月，我的愿望大概实现了一半。那时候没有想到自己会在短暂的时间内得到如此之多的机会。遇到了很多很棒的伙伴，也经历了很多很棒的事。即使如此也并非一直都是好事，前进三步退两步的事也发生了很多。但逐渐在过程中更加清晰的意识到了自己的短板以及自己想要的事。也逐渐觉得不论发生了什么，只要能够成长就是好事。</p>
 <p><b>我的短板:</b><br>(1) 深度信息加工能力: 可能是从小没有养成特别好的学习习惯以及天赋短板使然，我的学习能力一直都算不上特别好。在脑海里并没有一株稳固的知识树，导致信息检索-处理-输出的效率很低。不过最近在尝试着改变自己的学习习惯。改变已经形成的神经突触是艰难的-是真的生理上的艰难-新的突触形成的过程时的阻力会劝退很多人，但这一切都是值得的。<br>(2) 软实力: 处理人际关系方面一直都不是我的强项。是天生的个性以及缺乏社会经验有关。前者需要多内省，后者需要多实践。走出自己的世界，去接触更多与我截然不同的人并试着去感受他们的世界。</p>
@@ -289,7 +706,7 @@
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" href="/tags/code/">Code</a>
+      <a class="nav-item-link" href="/tags/code">Code</a>
     </li>
     
     <li class="nav-item">
